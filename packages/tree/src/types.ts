@@ -132,4 +132,18 @@ export type Tree = MultiDirectedGraph<TreeNode, TreeEdge, TreeInfo>;
 /**
  * TODO: IMPLEMENT THIS
  */
-export type YourTableTypeOrInterfaceOrFunctionEtc = never;
+// Defines output row that is defined by a segment and date
+export type TableRow = {
+  segment: string;
+  date: Date;
+  totalOrders: number;
+  cartConversion: number;
+  totalCarts: number;
+};
+
+// Defines output table that can represent multiple dates
+export type TableData = {
+  rows: TableRow[];
+};
+
+export type YourTableTypeOrInterfaceOrFunctionEtc = TableData;
