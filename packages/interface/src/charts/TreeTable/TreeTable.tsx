@@ -29,9 +29,9 @@ export const TreeTable = ({ data }: TreeTableProps) => {
                 {row.totalOrders?.toFixed(2) || "N/A"}
               </td>
               <td className={styles.cell}>
-                {(row.cartConversion
-                  ? (row.cartConversion * 100).toFixed(2)
-                  : "N/A") + "%"}
+                {row.cartConversion
+                  ? (row.cartConversion * 100).toFixed(2) + "%"
+                  : "N/A"}
               </td>
               <td className={styles.cell}>{row.totalCarts || "N/A"}</td>
             </tr>

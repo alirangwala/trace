@@ -82,5 +82,6 @@ export function treeTable(tree: Tree, dates: string[]): TableData {
   for (const date of dates) {
     table.rows.push(...nodeToRow(tree, rootNode, date));
   }
+  console.log(table);
   return table;
 }

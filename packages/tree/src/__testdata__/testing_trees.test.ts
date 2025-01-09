@@ -80,4 +80,41 @@ describe("testing_trees", () => {
       ],
     });
   });
+  test("Should output table if given bad date", () => {
+    const badDate = "bad_date";
+    const table = treeTable(testTree(), [badDate]);
+
+    expect(table).toEqual({
+      rows: [
+        {
+          segment: "Overall",
+          date: "bad_date",
+          totalOrders: null,
+          cartConversion: null,
+          totalCarts: null,
+        },
+        {
+          segment: "Boston",
+          date: "bad_date",
+          totalOrders: null,
+          cartConversion: null,
+          totalCarts: null,
+        },
+        {
+          segment: "Chicago",
+          date: "bad_date",
+          totalOrders: null,
+          cartConversion: null,
+          totalCarts: null,
+        },
+        {
+          segment: "New_York",
+          date: "bad_date",
+          totalOrders: null,
+          cartConversion: null,
+          totalCarts: null,
+        },
+      ],
+    });
+  });
 });

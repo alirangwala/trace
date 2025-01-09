@@ -16,9 +16,20 @@ type Story = StoryObj<typeof meta>;
 
 const date1 = "2021-12-27T00:00:00.000Z";
 const date2 = "2022-01-03T00:00:00.000Z";
+const badDate = "bad_date";
 export const Primary: Story = {
   args: {
     data: treeTable(testTree(), [date1, date2]),
+  },
+  decorators: [
+    (Story) => {
+      return <Story />;
+    },
+  ],
+};
+export const Secondary: Story = {
+  args: {
+    data: treeTable(testTree(), [badDate]),
   },
   decorators: [
     (Story) => {
