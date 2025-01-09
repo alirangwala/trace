@@ -14,7 +14,7 @@ export type EdgeId = string;
  * Describes a series of data points over time, each with a date and a potentially null value.
  */
 export type Timeseries = {
-  date: Date;
+  date: string;
   value: number | null;
 }[];
 
@@ -135,7 +135,7 @@ export type Tree = MultiDirectedGraph<TreeNode, TreeEdge, TreeInfo>;
 // Defines output row that is defined by a segment and date
 export type TableRow = {
   segment: string;
-  date: Date;
+  date: string;
   totalOrders: number;
   cartConversion: number;
   totalCarts: number;
@@ -145,5 +145,3 @@ export type TableRow = {
 export type TableData = {
   rows: TableRow[];
 };
-
-export type YourTableTypeOrInterfaceOrFunctionEtc = TableData;
