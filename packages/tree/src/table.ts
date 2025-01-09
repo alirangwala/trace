@@ -35,21 +35,21 @@ function getValueByDate(
   return item?.value ?? null;
 }
 
-function getSegmentName(nodeId: string): string {
-  // only the segments have string __eq__
-  const match = nodeId.match(/__eq__(.+)$/);
-  if (!match) return "Overall";
-  return match[1];
+function getSegmentName(tree: Tree, nodeId: string): string {
+  const segment = tree.getNodeAttributes(nodeId).segment;
+  const value = segment[0]?.value;
+  // value is of type string | number so I make output string here as segment needs to be string
+  return typeof value === "string" ? value : (value?.toString() ?? "Overall");
 }
 
 function nodeToRow(
   tree: Tree,
   node: string,
   date: string,
-  visitedNodes: Set<string> = new Set()
+  visitedNodes: Set<string | number> = new Set()
 ) {
   const rows: TableRow[] = [];
-  const segmentName = getSegmentName(node);
+  const segmentName = getSegmentName(tree, node);
   // base case
   if (visitedNodes.has(segmentName)) {
     return rows;
@@ -82,6 +82,5 @@ export function treeTable(tree: Tree, dates: string[]): TableData {
   for (const date of dates) {
     table.rows.push(...nodeToRow(tree, rootNode, date));
   }
-  console.log(table);
   return table;
 }

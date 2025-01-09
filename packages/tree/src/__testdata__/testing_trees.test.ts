@@ -43,7 +43,7 @@ describe("testing_trees", () => {
           totalCarts: 129,
         },
         {
-          segment: "New_York",
+          segment: "New York",
           date: "2021-12-27T00:00:00.000Z",
           totalOrders: 3110.391891891892,
           cartConversion: 0.7346225535880708,
@@ -71,7 +71,7 @@ describe("testing_trees", () => {
           totalCarts: 1163,
         },
         {
-          segment: "New_York",
+          segment: "New York",
           date: "2022-01-03T00:00:00.000Z",
           totalOrders: 19647.431589170817,
           cartConversion: 0.7892436566711182,
@@ -108,7 +108,7 @@ describe("testing_trees", () => {
           totalCarts: null,
         },
         {
-          segment: "New_York",
+          segment: "New York",
           date: "bad_date",
           totalOrders: null,
           cartConversion: null,
