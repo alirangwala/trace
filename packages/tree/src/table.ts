@@ -42,7 +42,7 @@ function getSegmentName(tree: Tree, nodeId: string): string {
   return typeof value === "string" ? value : (value?.toString() ?? "Overall");
 }
 
-function nodeToRow(
+function nodeToRows(
   tree: Tree,
   node: string,
   date: string,
@@ -69,7 +69,7 @@ function nodeToRow(
   const segmentedNodes = getSegmentationChildren(tree, node);
 
   for (const childNode of segmentedNodes) {
-    rows.push(...nodeToRow(tree, childNode, date, visitedNodes));
+    rows.push(...nodeToRows(tree, childNode, date, visitedNodes));
   }
 
   return rows;
@@ -80,7 +80,7 @@ export function treeTable(tree: Tree, dates: string[]): TableData {
   const table: TableData = { rows: [] };
 
   for (const date of dates) {
-    table.rows.push(...nodeToRow(tree, rootNode, date));
+    table.rows.push(...nodeToRows(tree, rootNode, date));
   }
   return table;
 }
