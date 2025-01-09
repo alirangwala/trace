@@ -42,7 +42,7 @@
       }
     },
     {
-      "key": "total_orders_calc__first_order_market__eq__New_York",
+      "key": "total_orders_calc__first_order_market__eq__New-York",
       "attributes": {
         "type": "operator",
         "operator": "*",
@@ -58,7 +58,7 @@
       }
     },
     {
-      "key": "total_carts__first_order_market__eq__New_York",
+      "key": "total_carts__first_order_market__eq__New-York",
       "attributes": {
         "type": "metric",
         "format": "integer",
@@ -73,7 +73,7 @@
       }
     },
     {
-      "key": "cart_conversion__first_order_market__eq__New_York",
+      "key": "cart_conversion__first_order_market__eq__New-York",
       "attributes": {
         "type": "metric",
         "format": "percent",
@@ -196,16 +196,16 @@
     },
     {
       "key": "geid_219_0",
-      "source": "total_orders_calc__first_order_market__eq__New_York",
-      "target": "total_carts__first_order_market__eq__New_York",
+      "source": "total_orders_calc__first_order_market__eq__New-York",
+      "target": "total_carts__first_order_market__eq__New-York",
       "attributes": {
         "type": "arithmetic"
       }
     },
     {
       "key": "geid_219_1",
-      "source": "total_orders_calc__first_order_market__eq__New_York",
-      "target": "cart_conversion__first_order_market__eq__New_York",
+      "source": "total_orders_calc__first_order_market__eq__New-York",
+      "target": "cart_conversion__first_order_market__eq__New-York",
       "attributes": {
         "type": "arithmetic"
       }
@@ -213,7 +213,7 @@
     {
       "key": "geid_219_2",
       "source": "total_orders_calc",
-      "target": "total_orders_calc__first_order_market__eq__New_York",
+      "target": "total_orders_calc__first_order_market__eq__New-York",
       "attributes": {
         "type": "segmentation"
       }

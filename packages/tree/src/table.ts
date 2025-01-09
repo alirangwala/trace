@@ -6,7 +6,11 @@ import {
   NodeType,
   Timeseries,
 } from "./types";
-import { getRootNode, getArithmeticChildren } from "./__testdata__/util";
+import {
+  getRootNode,
+  getArithmeticChildren,
+  getSegmentationChildren,
+} from "./__testdata__/util";
 /**
  * Task: Given a `Tree` object, generate a table comparing data at two points in
  * time. Implement the output type so that it would be straightforward to be used
@@ -37,24 +41,96 @@ import { getRootNode, getArithmeticChildren } from "./__testdata__/util";
 // };
 
 export function treeTable(tree: Tree, date1: string, date2: string): any {
-  console.log();
-  const table = { rows: [] };
+  const table: TableData = { rows: [] };
 
-  console.log(getRootNode(tree));
-  console.log(tree.getNodeAttributes(getRootNode(tree)));
+  const totalOrder = getRootNode(tree);
+  const [totalCarts, CartConv] = getArithmeticChildren(tree, totalOrder);
 
-  // const totalOrder = getRootNode(tree);
-  // const [totalCarts, CartConv] = getArithmeticChildren(tree, totalOrderNode)
+  const overallRow1: TableRow = {
+    segment: "Overall",
+    date: date1,
+    totalOrders: tree
+      .getNodeAttributes(getRootNode(tree))
+      .data.filter((item: any) => item.date == date1)[0].value,
+    cartConversion: tree
+      .getNodeAttributes(CartConv)
+      .data.filter((item: any) => item.date == date1)[0].value,
+    totalCarts: tree
+      .getNodeAttributes(totalCarts)
+      .data.filter((item: any) => item.date == date1)[0].value,
+  };
+  table.rows.push(overallRow1);
+  const overallRow2: TableRow = {
+    segment: "Overall",
+    date: date2,
+    totalOrders: tree
+      .getNodeAttributes(getRootNode(tree))
+      .data.filter((item: any) => item.date == date2)[0].value,
+    cartConversion: tree
+      .getNodeAttributes(CartConv)
+      .data.filter((item: any) => item.date == date2)[0].value,
+    totalCarts: tree
+      .getNodeAttributes(totalCarts)
+      .data.filter((item: any) => item.date == date2)[0].value,
+  };
+  table.rows.push(overallRow2);
 
-  // const overall_rows = tree.getNodeAttributes(getRootNode(tree)).timeseries.filter((item: any) => item.date == date)
+  const segmentationChildren = getSegmentationChildren(tree, totalOrder);
 
-  //   row: TableRow = {
-  //       "segment": "Overall",
-  //       "totalOrders": data.
-  //       "cartConversion": number,
-  //       "totalCarts": number,
-  //     }
-  //   root_node
+  let segments = segmentationChildren.map((child) => [
+    child,
+    ...getArithmeticChildren(tree, child),
+  ]);
 
-  return date1 + date2;
+  for (let segment of segments) {
+    let row1: TableRow = {
+      segment: segment[0].split("_").at(-1) ?? null,
+      date: date1,
+      totalOrders: null,
+      cartConversion: null,
+      totalCarts: null,
+    };
+    let row2: TableRow = {
+      segment: segment[0].split("_").at(-1) ?? null,
+      date: date2,
+      totalOrders: null,
+      cartConversion: null,
+      totalCarts: null,
+    };
+
+    for (let item of segment) {
+      if (item.startsWith("total_orders")) {
+        row1.totalOrders = tree
+          .getNodeAttributes(item)
+          .data.filter((item: any) => item.date == date1)[0].value;
+
+        row2.totalOrders = tree
+          .getNodeAttributes(item)
+          .data.filter((item: any) => item.date == date2)[0].value;
+      }
+      if (item.startsWith("total_carts")) {
+        row1.totalCarts = tree
+          .getNodeAttributes(item)
+          .data.filter((item: any) => item.date == date1)[0].value;
+
+        row2.totalCarts = tree
+          .getNodeAttributes(item)
+          .data.filter((item: any) => item.date == date2)[0].value;
+      }
+
+      if (item.startsWith("cart_conversion")) {
+        row1.cartConversion = tree
+          .getNodeAttributes(item)
+          .data.filter((item: any) => item.date == date1)[0].value;
+
+        row2.cartConversion = tree
+          .getNodeAttributes(item)
+          .data.filter((item: any) => item.date == date2)[0].value;
+      }
+    }
+    table.rows.push(row1);
+    table.rows.push(row2);
+  }
+  console.log(table);
+  return table;
 }

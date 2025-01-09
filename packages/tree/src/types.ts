@@ -134,11 +134,11 @@ export type Tree = MultiDirectedGraph<TreeNode, TreeEdge, TreeInfo>;
  */
 // Defines output row that is defined by a segment and date
 export type TableRow = {
-  segment: string;
+  segment: string | null;
   date: string;
-  totalOrders: number;
-  cartConversion: number;
-  totalCarts: number;
+  totalOrders: number | null;
+  cartConversion: number | null;
+  totalCarts: number | null;
 };
 
 // Defines output table that can represent multiple dates
