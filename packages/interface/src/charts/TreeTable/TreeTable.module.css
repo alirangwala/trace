@@ -1,0 +1,31 @@
+.container {
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  text-align: left;
+}
+
+.headerRow {
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #ddd;
+}
+
+.headerCell {
+  padding: 8px;
+  font-weight: bold;
+}
+
+.row {
+  border-bottom: 1px solid #ddd;
+}
+
+.cell {
+  padding: 8px;
+}

@@ -1,11 +1,4 @@
-import {
-  Tree,
-  OperatorNode,
-  TableRow,
-  TableData,
-  NodeType,
-  Timeseries,
-} from "./types";
+import { Tree, TableRow, TableData } from "./types";
 import {
   getRootNode,
   getArithmeticChildren,
@@ -31,14 +24,6 @@ import {
  *          nodes, their data at two dates, segmentation definitions, and
  *          arithmetic connections.
  */
-
-// export type TableRow = {
-//   segment: string;
-//   date: string;
-//   totalOrders: number;
-//   cartConversion: number;
-//   totalCarts: number;
-// };
 
 export function treeTable(tree: Tree, date1: string, date2: string): any {
   const table: TableData = { rows: [] };
