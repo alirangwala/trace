@@ -1,4 +1,3 @@
-import { parseISO } from "date-fns";
 import { MultiDirectedGraph } from "graphology";
 import { bfsFromNode } from "graphology-traversal";
 import { NodeId, Timeseries, Tree } from "../types";
@@ -18,7 +17,7 @@ export function testTree(): Tree {
       const timeseries: Timeseries = [];
       for (const row of table) {
         const { date: dateStr, value } = row;
-        timeseries.push({ date: parseISO(dateStr), value });
+        timeseries.push({ date: dateStr, value });
       }
 
       acc[node] = timeseries;
