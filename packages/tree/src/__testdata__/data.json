@@ -1359,7 +1359,7 @@
     ]
   },
   {
-    "node": "total_orders_calc__first_order_market__eq__New-York",
+    "node": "total_orders_calc__first_order_market__eq__New_York",
     "timeseries": [
       {
         "date": "2021-12-27T00:00:00.000Z",
@@ -2718,7 +2718,7 @@
     ]
   },
   {
-    "node": "total_carts__first_order_market__eq__New-York",
+    "node": "total_carts__first_order_market__eq__New_York",
     "timeseries": [
       {
         "date": "2021-12-27T00:00:00.000Z",
@@ -3171,7 +3171,7 @@
     ]
   },
   {
-    "node": "cart_conversion__first_order_market__eq__New-York",
+    "node": "cart_conversion__first_order_market__eq__New_York",
     "timeseries": [
       {
         "date": "2021-12-27T00:00:00.000Z",

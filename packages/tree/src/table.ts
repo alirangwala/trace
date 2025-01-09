@@ -25,97 +25,62 @@ import {
  *          arithmetic connections.
  */
 
-export function treeTable(tree: Tree, date1: string, date2: string): any {
+function getValueByDate(
+  tree: Tree,
+  nodeId: string,
+  date: string
+): number | null {
+  const node = tree.getNodeAttributes(nodeId);
+  const item = node.data.find((x) => x.date === date);
+  return item?.value ?? null;
+}
+
+function getSegmentName(nodeId: string): string {
+  // only the segments have string __eq__
+  const match = nodeId.match(/__eq__(.+)$/);
+  if (!match) return "Overall";
+  return match[1];
+}
+
+function nodeToRow(
+  tree: Tree,
+  node: string,
+  date: string,
+  visitedNodes: Set<string> = new Set()
+) {
+  const rows: TableRow[] = [];
+  const segmentName = getSegmentName(node);
+  // base case
+  if (visitedNodes.has(segmentName)) {
+    return rows;
+  }
+  visitedNodes.add(segmentName);
+
+  const [cartConvNode, totalCartsNode] = getArithmeticChildren(tree, node);
+
+  rows.push({
+    segment: segmentName,
+    date: date,
+    totalOrders: getValueByDate(tree, node, date),
+    cartConversion: getValueByDate(tree, cartConvNode, date),
+    totalCarts: getValueByDate(tree, totalCartsNode, date),
+  });
+
+  const segmentedNodes = getSegmentationChildren(tree, node);
+
+  for (const childNode of segmentedNodes) {
+    rows.push(...nodeToRow(tree, childNode, date, visitedNodes));
+  }
+
+  return rows;
+}
+
+export function treeTable(tree: Tree, dates: string[]): TableData {
+  const rootNode = getRootNode(tree);
   const table: TableData = { rows: [] };
 
-  const totalOrder = getRootNode(tree);
-  const [totalCarts, CartConv] = getArithmeticChildren(tree, totalOrder);
-
-  const overallRow1: TableRow = {
-    segment: "Overall",
-    date: date1,
-    totalOrders: tree
-      .getNodeAttributes(getRootNode(tree))
-      .data.filter((item: any) => item.date == date1)[0].value,
-    cartConversion: tree
-      .getNodeAttributes(CartConv)
-      .data.filter((item: any) => item.date == date1)[0].value,
-    totalCarts: tree
-      .getNodeAttributes(totalCarts)
-      .data.filter((item: any) => item.date == date1)[0].value,
-  };
-  table.rows.push(overallRow1);
-  const overallRow2: TableRow = {
-    segment: "Overall",
-    date: date2,
-    totalOrders: tree
-      .getNodeAttributes(getRootNode(tree))
-      .data.filter((item: any) => item.date == date2)[0].value,
-    cartConversion: tree
-      .getNodeAttributes(CartConv)
-      .data.filter((item: any) => item.date == date2)[0].value,
-    totalCarts: tree
-      .getNodeAttributes(totalCarts)
-      .data.filter((item: any) => item.date == date2)[0].value,
-  };
-  table.rows.push(overallRow2);
-
-  const segmentationChildren = getSegmentationChildren(tree, totalOrder);
-
-  let segments = segmentationChildren.map((child) => [
-    child,
-    ...getArithmeticChildren(tree, child),
-  ]);
-
-  for (let segment of segments) {
-    let row1: TableRow = {
-      segment: segment[0].split("_").at(-1) ?? null,
-      date: date1,
-      totalOrders: null,
-      cartConversion: null,
-      totalCarts: null,
-    };
-    let row2: TableRow = {
-      segment: segment[0].split("_").at(-1) ?? null,
-      date: date2,
-      totalOrders: null,
-      cartConversion: null,
-      totalCarts: null,
-    };
-
-    for (let item of segment) {
-      if (item.startsWith("total_orders")) {
-        row1.totalOrders = tree
-          .getNodeAttributes(item)
-          .data.filter((item: any) => item.date == date1)[0].value;
-
-        row2.totalOrders = tree
-          .getNodeAttributes(item)
-          .data.filter((item: any) => item.date == date2)[0].value;
-      }
-      if (item.startsWith("total_carts")) {
-        row1.totalCarts = tree
-          .getNodeAttributes(item)
-          .data.filter((item: any) => item.date == date1)[0].value;
-
-        row2.totalCarts = tree
-          .getNodeAttributes(item)
-          .data.filter((item: any) => item.date == date2)[0].value;
-      }
-
-      if (item.startsWith("cart_conversion")) {
-        row1.cartConversion = tree
-          .getNodeAttributes(item)
-          .data.filter((item: any) => item.date == date1)[0].value;
-
-        row2.cartConversion = tree
-          .getNodeAttributes(item)
-          .data.filter((item: any) => item.date == date2)[0].value;
-      }
-    }
-    table.rows.push(row1);
-    table.rows.push(row2);
+  for (const date of dates) {
+    table.rows.push(...nodeToRow(tree, rootNode, date));
   }
-  console.log(table);
   return table;
 }

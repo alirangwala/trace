@@ -13,7 +13,8 @@ export function getArithmeticChildren(tree: Tree, node: string): string[] {
       node,
       (_edge, attributes) => attributes.type == EdgeType.Arithmetic
     )
-    .map((edgeId) => tree.target(edgeId));
+    .map((edgeId) => tree.target(edgeId))
+    .sort();
 }
 
 // Get the segmentation children for a given node id.
@@ -23,5 +24,6 @@ export function getSegmentationChildren(tree: Tree, node: string): string[] {
       node,
       (_edge, attributes) => attributes.type == EdgeType.Segmentation
     )
-    .map((edgeId) => tree.target(edgeId));
+    .map((edgeId) => tree.target(edgeId))
+    .sort();
 }
